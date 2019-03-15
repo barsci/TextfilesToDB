@@ -1,12 +1,15 @@
 package model;
 
-public class Contacts {
+public class Contact {
 
     int id;
     private ContactType contactType;
-    String  contact;
+    private String contact;
 
-    public Contacts(ContactType contactType, String contact) {
+    public Contact() {
+    }
+
+    public Contact(ContactType contactType, String contact) {
         this.contactType = contactType;
         this.contact = contact;
     }
@@ -25,5 +28,13 @@ public class Contacts {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "contactType=" + contactType +
+                ", contact='" + contact + '\'' +
+                '}';
     }
 }
