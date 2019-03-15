@@ -1,4 +1,4 @@
-package xmlparser;
+package parsers.xmlparser;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import model.Customer;
 import org.xml.sax.SAXException;
+import parsers.csvparser.CSVParser;
 
 public class XMLParser {
 
@@ -17,7 +18,7 @@ public class XMLParser {
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         try {
             SAXParser saxParser = saxParserFactory.newSAXParser();
-            UserDataParser handler = new UserDataParser();
+            XMLUserDataParser handler = new XMLUserDataParser();
             saxParser.parse(new File("C:/Users/Marcin/Downloads/dane-osoby.xml"), handler);
             List<Customer> customers = handler.getCustomerList();
             for(Customer c: customers) {
@@ -26,6 +27,12 @@ public class XMLParser {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println();
+        CSVParser csvParser = new CSVParser();
+        csvParser.parse(new File("C:/Users/Marcin/Downloads/dane-osoby.txt"));
+        List<Customer> customers = csvParser.getCustomerList();
+        for(Customer c: customers) {
+            System.out.println(c);
+        }
     }
-
 }

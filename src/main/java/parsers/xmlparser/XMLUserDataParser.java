@@ -1,4 +1,4 @@
-package xmlparser;
+package parsers.xmlparser;
 
 import model.Contact;
 import model.ContactType;
@@ -10,7 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDataParser extends DefaultHandler {
+public class XMLUserDataParser extends DefaultHandler {
 
     private Customer customer;
     private List<Customer> customerList = new ArrayList<>();
@@ -26,6 +26,8 @@ public class UserDataParser extends DefaultHandler {
     boolean bAge = false;
     boolean bEmail = false;
     boolean bPhone = false;
+    boolean bJabber = false;
+    boolean bUnknown = false;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -43,6 +45,8 @@ public class UserDataParser extends DefaultHandler {
             bPhone = true;
         } else if (qName.equalsIgnoreCase("email")) {
             bEmail = true;
+        } else if (qName.equalsIgnoreCase("jabber")) {
+            bJabber = true;
         }
 
         data = new StringBuilder();
@@ -66,6 +70,12 @@ public class UserDataParser extends DefaultHandler {
         } else if (bPhone) {
             contactList.add(new Contact(ContactType.PHONE, data.toString()));
             bPhone = false;
+        } else if (bJabber) {
+            contactList.add(new Contact(ContactType.JABBER, data.toString()));
+            bJabber = false;
+        } else if (bUnknown) {
+            contactList.add(new Contact(ContactType.UNKNOWN, data.toString()));
+            bUnknown = false;
         }
 
         if (qName.equalsIgnoreCase("person")) {
